@@ -1,12 +1,17 @@
 package ro.corneliudascalu.gcm.server;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import org.json.simple.JSONObject;
 
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Sender;
 
 class Notify {
+	@SuppressWarnings("unchecked")
 	public static void main(String args[]) {
 
 		try {
@@ -14,8 +19,9 @@ class Notify {
 			Sender sender = new Sender("AIzaSyCp25M0MKoAO99RZ7Nx9W-686BbI0lokCo");
 
 			ArrayList<String> devicesList = new ArrayList<String>();
+			String deviceId = "APA91bGBNspjNpAR_ErCZnuCNcy2ch2yj8GRBR5G38KHA9XK7eV47a-Fv_NdZWG2D_2Dc686YO0pqEjUGHP-VI6Yyul3vtZ9a3iZC9BqqRy_EL_R_-cnu0rD0WpKRVvBCrPRI0uOS_vNa3JFdG0X0UEHWpDHRMWW4Q";
 
-			devicesList.add("APA91bF6tGGaXA_4GoP0l-VUR5q96vORnowlgRTZYslQkTWQ7E1wqqkjrD-JdIBXDabF-ajSDhXjsZTjSiyTUGEABwlALw1Ex1bSOiAfSDVv4Tzn6k_yVH0HqggI5WgrtnnfdSB0drI6Gf5VjH554aDKxr48mhI6Bw");
+			devicesList.add(deviceId);
 
 			// Use this line to send message without payload data
 			// Message message = new Message.Builder().build();
@@ -30,11 +36,16 @@ class Notify {
 			// 1);
 
 			// Use this for multicast messages
-			for (int i = 0; i < 10; i++) {
-				Thread.sleep(500);
-				message = new Message.Builder().collapseKey("1").timeToLive(3).delayWhileIdle(true).addData("message", "Message with id " + i).addData("id", "" + i).build();
+			int i = 0;
+			DateFormat df = DateFormat.getDateTimeInstance();
+		//	while (true) {
+				Thread.sleep(200);
+				i++;
+				JSONObject data = new JSONObject();
+				data.put("id", i);
+				data.put("date", df.format(new Date()));
+				message = new Message.Builder().collapseKey("1").timeToLive(3).delayWhileIdle(true).addData("message", data.toJSONString()).build();
 				MulticastResult result = sender.send(message, devicesList, 1);
-				sender.send(message, devicesList, 1);
 
 				System.out.println(result.toString());
 				if (result.getResults() != null) {
@@ -45,7 +56,7 @@ class Notify {
 					int error = result.getFailure();
 					System.out.println(error);
 				}
-			}
+		//	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -11,4 +11,17 @@
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="registerClicked"
+        android:text="Register to GCM" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:onClick="unregisterClicked"
+        android:text="Unregister from GCM" />
+
 </LinearLayout>

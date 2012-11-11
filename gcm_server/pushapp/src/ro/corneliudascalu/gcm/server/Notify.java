@@ -17,9 +17,10 @@ class Notify {
 		try {
 
 			Sender sender = new Sender("AIzaSyCp25M0MKoAO99RZ7Nx9W-686BbI0lokCo");
+			
 
 			ArrayList<String> devicesList = new ArrayList<String>();
-			String deviceId = "APA91bGBNspjNpAR_ErCZnuCNcy2ch2yj8GRBR5G38KHA9XK7eV47a-Fv_NdZWG2D_2Dc686YO0pqEjUGHP-VI6Yyul3vtZ9a3iZC9BqqRy_EL_R_-cnu0rD0WpKRVvBCrPRI0uOS_vNa3JFdG0X0UEHWpDHRMWW4Q";
+			String deviceId = "APA91bGgvQdV7W_yfLM7gnEJPUQLkd7hx24S413Sk3YZeQXBJjEH-JpnCo30YBvZZzh5_kEhfLBAbK4GJ16coDxn7NUJXfnVh0rjKo0K-wf2fxL7l2ZFXZ5K3pYNW3ChS8osInn1oOCw5QdxecGWaNTfTk6d9SghQA";
 
 			devicesList.add(deviceId);
 
@@ -27,7 +28,7 @@ class Notify {
 			// Message message = new Message.Builder().build();
 
 			// use this line to send message with payload data
-			Message message = new Message.Builder().collapseKey("1").timeToLive(3).delayWhileIdle(true).addData("message", "this text will be seen in notification bar!!").build();
+			Message message = new Message.Builder().timeToLive(3).delayWhileIdle(false).addData("message", "this text will be seen in notification bar!!").build();
 
 			// Use this code to send to a single device
 			// Result result = sender
@@ -38,12 +39,12 @@ class Notify {
 			// Use this for multicast messages
 			int i = 0;
 			DateFormat df = DateFormat.getDateTimeInstance();
-		//	while (true) {
-				Thread.sleep(200);
+			while (true) {
+				Thread.sleep(2000);
 				i++;
 				JSONObject data = new JSONObject();
 				data.put("id", i);
-				data.put("date", df.format(new Date()));
+				data.put("date", new Date().getTime());
 				message = new Message.Builder().collapseKey("1").timeToLive(3).delayWhileIdle(true).addData("message", data.toJSONString()).build();
 				MulticastResult result = sender.send(message, devicesList, 1);
 
@@ -56,7 +57,7 @@ class Notify {
 					int error = result.getFailure();
 					System.out.println(error);
 				}
-		//	}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

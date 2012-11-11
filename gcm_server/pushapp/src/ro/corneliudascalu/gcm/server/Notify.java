@@ -28,7 +28,7 @@ class Notify {
 			// Message message = new Message.Builder().build();
 
 			// use this line to send message with payload data
-			Message message = new Message.Builder().timeToLive(3).delayWhileIdle(false).addData("message", "this text will be seen in notification bar!!").build();
+			Message message = new Message.Builder().timeToLive(0).delayWhileIdle(false).addData("message", "this text will be seen in notification bar!!").build();
 
 			// Use this code to send to a single device
 			// Result result = sender
